@@ -6,7 +6,7 @@
 /*   By: cbarbisa <cbarbisa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/01 15:36:44 by cbarbisa          #+#    #+#             */
-/*   Updated: 2015/12/15 15:39:58 by cbarbisa         ###   ########.fr       */
+/*   Updated: 2015/12/15 16:12:14 by cbarbisa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ class Commands
 		std::stack<double> & getStackValue(void);
 		std::map<std::string, ptrFunc> & getMap(void);
 		Commands(void);
-		Commands(std::stack<std::string> & stack);
 		Commands(Commands const &);
 		Commands const & operator=(Commands const &);
 		~Commands(void);

@@ -6,7 +6,7 @@
 /*   By: cbarbisa <cbarbisa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/01 15:36:44 by cbarbisa          #+#    #+#             */
-/*   Updated: 2015/12/01 15:36:49 by cbarbisa         ###   ########.fr       */
+/*   Updated: 2015/12/15 15:39:58 by cbarbisa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ class Commands
 		bool print(void);
 		bool exit(void);
 		bool executeCommand(std::string name);
-		std::stack<std::string> getStackFunc(void);
 		std::stack<double> & getStackValue(void);
 		std::map<std::string, ptrFunc> & getMap(void);
 		Commands(void);
@@ -52,4 +51,4 @@ class Commands
 		~Commands(void);
 };
 
-#endif //ABSTRACT_VM_COMMANDS_H
+#endif

@@ -6,7 +6,7 @@
 /*   By: cbarbisa <cbarbisa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/01 10:27:41 by cbarbisa          #+#    #+#             */
-/*   Updated: 2015/12/15 15:10:23 by cbarbisa         ###   ########.fr       */
+/*   Updated: 2015/12/15 15:33:35 by cbarbisa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 class Stack
 {
 	private:
-		std::vector< std::vector<std::string> > _stack;
+		std::vector< std::vector<std::string> > *_stack;
 		Commands *_commands;
 	public:
 		Stack(void);
@@ -32,7 +32,7 @@ class Stack
 		Stack(Stack const &);
 		Stack const & operator=(Stack const &);
 		~Stack(void);
-		std::vector< std::vector<std::string> > getStack(void) const;
+		std::vector< std::vector<std::string> > *getStack(void) const;
 		Commands *getCommands(void) const;
 		void setCommands(Commands *commands);
 		bool addFunctionToStack(std::string const name);

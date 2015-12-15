@@ -6,7 +6,7 @@
 /*   By: cbarbisa <cbarbisa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/01 15:20:54 by cbarbisa          #+#    #+#             */
-/*   Updated: 2015/12/15 15:20:50 by cbarbisa         ###   ########.fr       */
+/*   Updated: 2015/12/15 15:34:36 by cbarbisa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 
 Stack::Stack()
 {
+	this->_stack = new std::vector< std::vector<std::string> >;
 }
 
 Stack::Stack(Commands * commands)
 {
+	this->_stack = new std::vector< std::vector<std::string> >;
 	this->_commands = commands;
 }
 
@@ -38,7 +40,7 @@ Stack::~Stack()
 	return;
 }
 
-std::vector< std::vector<std::string> > Stack::getStack() const
+std::vector< std::vector<std::string> > *Stack::getStack() const
 {
 	return(this->_stack);
 }
@@ -59,6 +61,7 @@ bool Stack::addFunctionToStack(std::string const name)
 	functions.push_back(name);
 	functions.push_back(name);
 	functions.push_back(name);
+	this->_stack->push_back(functions);
 	return(true);
 }
 

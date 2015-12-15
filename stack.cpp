@@ -6,7 +6,7 @@
 /*   By: cbarbisa <cbarbisa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/01 15:20:54 by cbarbisa          #+#    #+#             */
-/*   Updated: 2015/12/01 18:22:31 by cbarbisa         ###   ########.fr       */
+/*   Updated: 2015/12/15 15:20:50 by cbarbisa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ Stack::~Stack()
 	return;
 }
 
-std::multimap<std::string, std::string, std::string> Stack::getStack() const
+std::vector< std::vector<std::string> > Stack::getStack() const
 {
 	return(this->_stack);
 }
@@ -55,10 +55,10 @@ void Stack::setCommands(Commands *commands)
 
 bool Stack::addFunctionToStack(std::string const name)
 {
-	std::string *functions = new std::string[3];
-	functions[0] = name;
-	functions[1] = name;
-	functions[2] = name;
+	std::vector<std::string> functions;
+	functions.push_back(name);
+	functions.push_back(name);
+	functions.push_back(name);
 	return(true);
 }
 

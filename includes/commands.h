@@ -17,6 +17,7 @@
 #include <stack>
 #include <map>
 #include <string>
+#include "IOperand.h"
 
 class Commands
 {
@@ -31,7 +32,7 @@ class Commands
 		float floatNb(float nb);
 		double doubleNb(double nb);
 		bool push(double nb);
-		bool assert(double nb);
+		bool assert(IOperand const value);
 		bool pop(void);
 		bool dump(void);
 		bool add(void);

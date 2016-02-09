@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <abstract.h>
-#include <checker.h>
+#include "abstract.h"
+#include "parser.h"
 
 int main(int argc, char* argv[])
 {
-    Checker parser;
+    parser parser;
     //parser.addCommand("push", "push int32\\([0-9]+\\)");
     //parser.addCommand("pop", "pop");
     if (argc == 1)

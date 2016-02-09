@@ -2,15 +2,15 @@
 // Created by Clement BARBISAN on 30/11/15.
 //
 
-#ifndef ABSTRACT_VM_CHECKER_H
-#define ABSTRACT_VM_CHECKER_H
+#ifndef ABSTRACT_VM_parser_H
+#define ABSTRACT_VM_parser_H
 
 #include <map>
 #include <string>
 #include <regex>
-#include <stack.h>
+#include "stack.h"
 
-class Checker 
+class parser 
 {
     private:
         int _countLine;
@@ -19,11 +19,11 @@ class Checker
         void _incrementCountLine();
 		bool _addFunctionToStack(std::string const name);
     public:
-        Checker(void);
-        Checker(Stack *stack);
-        ~Checker(void);
-        Checker(Checker const &);
-        Checker const & operator=(Checker const &);
+        parser(void);
+        parser(Stack *stack);
+        ~parser(void);
+        parser(parser const &);
+        parser const & operator=(parser const &);
         void addCommand(std::string const name, std::string const regex);
         bool checkLine(std::string const line);
         std::map<std::string, std::regex> const & getCommands() const;

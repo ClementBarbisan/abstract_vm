@@ -24,10 +24,15 @@ class lexer
         lexer();
         lexer(lexer const & cp);
         lexer & operator=(lexer const & cp);
-        void checkLine(std::string line, int nbLine);
+        void checkLine(std::string line, int nbLine) const;
+        std::list<std::string>  *getErrorList() const;
+        std::list< std::list<std::string> > *getParserList() const;
         ~lexer();
     private:
-        std::list< std::list<std::string> > *parseList;
+        void    addLineToParser(std::string line) const;
+        void    searchError(std::string line, int nbLine) const;
+        std::list<std::string>  *errorList;
+        std::list< std::list<std::string> > *parserList;
     
     
 };

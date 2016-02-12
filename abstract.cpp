@@ -12,29 +12,74 @@
 
 #include "abstract.h"
 #include "parser.h"
+#include "lexer.h"
+#include <fstream>
+
+void    readFile(lexer *lexer, char* filename)
+{
+    int lineNb;
+    std::string line;
+    std::ifstream file(filename);
+    
+    lineNb = 0;
+    while (std::getline(file, line) && line.length() > 0)
+    {
+        try
+        {
+            std::cout << line << std::endl;
+            lexer->checkLine(line);
+        }
+        catch (lexer::lexicalException& e)
+        {
+            lexer->searchError(line, lineNb, e);
+        }
+        lineNb++;
+    }
+}
+
+void    standardEntryReading(lexer *lexer)
+{
+    int lineNb;
+    std::string line;
+    
+    lineNb = 0;
+    try
+    {
+        while (true)
+        {
+            std::getline(std::cin, line);
+            lexer->checkLine(line);
+            lineNb++;
+        }
+    }
+    catch (lexer::lexicalException& e)
+    {
+        lexer->searchError(line, lineNb, e);
+    }
+}
+
+void    parseFile(parser *currentParser)
+{
+    
+}
 
 int main(int argc, char* argv[])
 {
     parser parser;
-    //parser.addCommand("push", "push int32\\([0-9]+\\)");
-    //parser.addCommand("pop", "pop");
+    lexer lexer;
+
     if (argc == 1)
     {
-        std::string line;
-        while (true)
-        {
-            std::getline(std::cin, line);
-            if (parser.checkLine(line))
-                std::cout << line << std::endl;
-            else
-                std::cout << "blop" << std::endl;
-        }
+        standardEntryReading(&lexer);
     }
     else if (argc == 2)
     {
-        std::cout << argv[1] << std::endl;
+        readFile(&lexer, argv[1]);
     }
     else
         std::cout << "Too much arguments : Usage - ./avm <filename>" << std::endl;
+    if (lexer.getErrorList()->size() > 0)
+        return (-1);
+    parseFile(&parser);
 }
 

@@ -10,6 +10,21 @@
 #include <regex>
 #include "stack.h"
 
+std::string    commands[11] =
+{
+    "push",
+    "pop",
+    "dump",
+    "assert",
+    "add",
+    "sub",
+    "mul",
+    "div",
+    "mod",
+    "print",
+    "exit"
+};
+
 class parser 
 {
     private:

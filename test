@@ -1,6 +1,0 @@
-push int32(42)
-push int(0)
-push int()
-push ()
-push )
-

@@ -7,7 +7,7 @@
 //
 
 #include <stdio.h>
-#include "lexer.h"
+#include <lexer.h>
 #include <regex>
 
 lexer::lexer()
@@ -65,10 +65,10 @@ void    lexer::addLineToParser(std::string line) const
     
     line = line.substr(0, line.find(";"));
     std::regex_match(line, matches, std::regex("[a-zA-Z0-9]+"));
+	if (matches.length() > 3)
+		throw lexer::lexicalException("too much tokens");
     for (std::smatch::iterator it = matches.begin(); it < matches.end(); it++)
-    {
         tokens.push_back(*it);
-    }
     parserList->push_back(tokens);
 }
 
@@ -77,12 +77,12 @@ void    lexer::checkLine(std::string line) const
     if (std::regex_match(line, std::regex("[a-z]+( [a-z]{3,6}[0-9]{0,2}\\([-]?[0-9]+(.[0-9]+)?\\))?(;.*)?")))
         addLineToParser(line);
     else
-        throw lexer::lexicalException();
+        throw lexer::lexicalException("lexical error");
 }
 
-lexer::lexicalException::lexicalException(): std::logic_error("lexical error")
+lexer::lexicalException::lexicalException(std::string msg): std::logic_error(msg)
 {
-    _msg = "lexical error";
+    _msg = msg;
 }
 
 lexer::lexicalException::~lexicalException() throw()

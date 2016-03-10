@@ -2,32 +2,32 @@
 // Created by Clement BARBISAN on 30/11/15.
 //
 
-#ifndef ABSTRACT_VM_parser_H
-#define ABSTRACT_VM_parser_H
+#ifndef ABSTRACT_VM_PARSER_H
+# define ABSTRACT_VM_PARSER_H
 
-#include <map>
-#include <string>
-#include <regex>
-#include "stack.h"
+# include <map>
+# include <string>
+# include <regex>
 
-std::string    commands[11] =
-{
-    "push",
-    "pop",
-    "dump",
-    "assert",
-    "add",
-    "sub",
-    "mul",
-    "div",
-    "mod",
-    "print",
-    "exit"
-};
+class Stack;
 
-class parser 
+class parser
 {
     private:
+		std::string    commands[11] =
+		{
+			"push",
+			"pop",
+			"dump",
+			"assert",
+			"add",
+			"sub",
+			"mul",
+			"div",
+			"mod",
+			"print",
+			"exit"
+		};
         int _countLine;
 		Stack  *_stack;
         std::map<std::string, std::regex> _commands;

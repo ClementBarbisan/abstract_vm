@@ -17,7 +17,7 @@
 #include <stack>
 #include <map>
 #include <string>
-#include "IOperand.h"
+#include <IOperand.h>
 
 class Commands
 {
@@ -26,13 +26,13 @@ class Commands
 		std::map<std::string, ptrFunc> *_mapFunc;
 		std::stack<double> *_stackValue;
 	public:
-		int8_t int8Nb(int8_t nb);
-		int16_t int16Nb(int16_t nb);
-		int32_t int32Nb(int32_t nb);
-		float floatNb(float nb);
-		double doubleNb(double nb);
-		bool push(double nb);
-		bool assert(IOperand const value);
+		IOperand int8Nb(IOperand value);
+		IOperand int16Nb(IOperand value);
+		IOperand int32Nb(IOperand value);
+		IOperand floatNb(IOperand value);
+		IOperand doubleNb(IOperand value);
+		bool push(IOperand value);
+		bool assert(IOperand value);
 		bool pop(void);
 		bool dump(void);
 		bool add(void);

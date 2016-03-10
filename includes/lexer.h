@@ -9,18 +9,18 @@
 
 class lexer
 {
-   
     public:
         class lexicalException : public std::logic_error
         {
         public:
-            lexicalException();
+            lexicalException(std::string msg);
             lexicalException(lexicalException const & cp);
             lexicalException & operator=(lexicalException const & cp);
             std::string getMsg() const;
             virtual ~lexicalException() throw();
             virtual const char *what() const throw();
         private:
+			lexicalException();
             std::string _msg;
         };
         lexer();
@@ -35,8 +35,6 @@ class lexer
         void    addLineToParser(std::string line) const;
         std::list<std::string>  *errorList;
         std::list< std::list<std::string> > *parserList;
-    
-    
 };
 
 #endif

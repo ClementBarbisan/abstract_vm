@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "abstract.h"
-#include "parser.h"
-#include "lexer.h"
+#include <abstract.h>
+#include <parser.h>
+#include <lexer.h>
 #include <fstream>
 
 void    readFile(lexer *lexer, char* filename)
@@ -39,7 +39,7 @@ void    readFile(lexer *lexer, char* filename)
 
 void    standardEntryReading(lexer *lexer)
 {
-    int lineNb;
+    int			lineNb;
     std::string line;
     
     lineNb = 0;
@@ -60,24 +60,20 @@ void    standardEntryReading(lexer *lexer)
 
 void    parseFile(parser *currentParser)
 {
-    
+	
 }
 
 int main(int argc, char* argv[])
 {
-    parser parser;
-    lexer lexer;
+    parser	parser;
+    lexer	lexer;
 
     if (argc == 1)
-    {
         standardEntryReading(&lexer);
-    }
     else if (argc == 2)
-    {
         readFile(&lexer, argv[1]);
-    }
     else
-        std::cout << "Too much arguments : Usage - ./avm <filename>" << std::endl;
+        std::cout << "Too much arguments : Usage - ./avm [filename]" << std::endl;
     if (lexer.getErrorList()->size() > 0)
         return (-1);
     parseFile(&parser);

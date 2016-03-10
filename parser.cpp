@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include <parser.h>
+#include <stack.h>
 #include <iostream>
 
 parser::parser()

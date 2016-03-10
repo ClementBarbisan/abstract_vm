@@ -12,6 +12,7 @@
 		2EFDB79E1C6B2F1400247957 /* lexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EFDB7991C6B2F1400247957 /* lexer.cpp */; };
 		2EFDB79F1C6B2F1400247957 /* parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EFDB79A1C6B2F1400247957 /* parser.cpp */; };
 		2EFDB7A01C6B2F1400247957 /* stack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2EFDB79B1C6B2F1400247957 /* stack.cpp */; };
+		B0166AC81C909D6800413A39 /* OperandFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0166AC61C909D6800413A39 /* OperandFactory.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -39,6 +40,9 @@
 		2EFDB7991C6B2F1400247957 /* lexer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lexer.cpp; sourceTree = "<group>"; };
 		2EFDB79A1C6B2F1400247957 /* parser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = parser.cpp; sourceTree = "<group>"; };
 		2EFDB79B1C6B2F1400247957 /* stack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stack.cpp; sourceTree = "<group>"; };
+		B0166AC51C909BF900413A39 /* Operand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Operand.h; path = includes/Operand.h; sourceTree = "<group>"; };
+		B0166AC61C909D6800413A39 /* OperandFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OperandFactory.cpp; sourceTree = "<group>"; };
+		B0166AC91C909D9800413A39 /* OperandFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OperandFactory.h; path = includes/OperandFactory.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +59,9 @@
 		2E66A8BC1C69FC6200565830 = {
 			isa = PBXGroup;
 			children = (
+				B0166AC91C909D9800413A39 /* OperandFactory.h */,
+				B0166AC61C909D6800413A39 /* OperandFactory.cpp */,
+				B0166AC51C909BF900413A39 /* Operand.h */,
 				2EFDB7971C6B2F1400247957 /* abstract.cpp */,
 				2EFDB7981C6B2F1400247957 /* commands.cpp */,
 				2EFDB7991C6B2F1400247957 /* lexer.cpp */,
@@ -136,6 +143,7 @@
 			files = (
 				2EFDB79D1C6B2F1400247957 /* commands.cpp in Sources */,
 				2EFDB79E1C6B2F1400247957 /* lexer.cpp in Sources */,
+				B0166AC81C909D6800413A39 /* OperandFactory.cpp in Sources */,
 				2EFDB79F1C6B2F1400247957 /* parser.cpp in Sources */,
 				2EFDB79C1C6B2F1400247957 /* abstract.cpp in Sources */,
 				2EFDB7A01C6B2F1400247957 /* stack.cpp in Sources */,
@@ -228,6 +236,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				HEADER_SEARCH_PATHS = ./includes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -236,6 +245,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				HEADER_SEARCH_PATHS = ./includes;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

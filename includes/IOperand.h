@@ -9,25 +9,27 @@
 #ifndef IOperand_h
 #define IOperand_h
 
+#include <string>
+
 class IOperand {
-    typedef enum    eOperandType
-    {
-        INT8,
-        INT16,
-        INT32,
-        DOUBLE,
-        FLOAT        
-    }              eOperandType;
-public:
-    virtual int getPrecision( void ) const = 0;
-    virtual eOperandType getType( void ) const = 0;
-    virtual IOperand const * operator+( IOperand const & rhs ) const = 0;
-    virtual IOperand const * operator-( IOperand const & rhs ) const = 0;
-    virtual IOperand const * operator*( IOperand const & rhs ) const = 0;
-    virtual IOperand const * operator/( IOperand const & rhs ) const = 0;
-    virtual IOperand const * operator%( IOperand const & rhs ) const = 0;
-    virtual std::string const & toString( void ) const = 0;
-    virtual ~IOperand( void ) {}
+	public:
+	typedef enum    eOperandType
+	{
+		INT8,
+		INT16,
+		INT32,
+		DOUBLE,
+		FLOAT
+	}				eOperandType;
+		virtual int getPrecision() const = 0;
+		virtual eOperandType getType() const = 0;
+		virtual IOperand const * operator+(IOperand const & rhs) const = 0;
+		virtual IOperand const * operator-(IOperand const & rhs) const = 0;
+		virtual IOperand const * operator*(IOperand const & rhs) const = 0;
+		virtual IOperand const * operator/(IOperand const & rhs) const = 0;
+		virtual IOperand const * operator%(IOperand const & rhs) const = 0;
+		virtual std::string const & toString() const = 0;
+		virtual ~IOperand() {}
 };
 
 #endif /* IOperand_h */

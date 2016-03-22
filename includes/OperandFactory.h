@@ -19,12 +19,11 @@ class OperandFactory
         typedef IOperand const *(OperandFactory::*funcOperand)(std::string const &) const;
 		OperandFactory();
 		~OperandFactory();
-        std::map<IOperand::eOperandType, funcOperand> const & getMapOperand() const;
 		IOperand const * createOperand(IOperand::eOperandType type, std::string const & value) const;
 	private:
         OperandFactory(OperandFactory const & cp);
         OperandFactory & operator=(OperandFactory const & cp);
-		std::map<IOperand::eOperandType, funcOperand> mapOperand;
+		std::map<IOperand::eOperandType, funcOperand> *mapOperand;
 		IOperand const * createInt8(std::string const & value) const;
 		IOperand const * createInt16(std::string const & value) const;
 		IOperand const * createInt32(std::string const & value) const;

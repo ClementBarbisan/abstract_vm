@@ -36,16 +36,16 @@ IOperand const * OperandFactory::createDouble(std::string const & value) const
 
 OperandFactory::OperandFactory()
 {
-    mapOperand = new std::map<IOperand::eOperandType, funcOperand>();
-    (*mapOperand)[IOperand::INT8] = &OperandFactory::createInt8;
-    (*mapOperand)[IOperand::INT16] = &OperandFactory::createInt16;
-    (*mapOperand)[IOperand::INT32] = &OperandFactory::createInt32;
-    (*mapOperand)[IOperand::FLOAT] = &OperandFactory::createFloat;
-    (*mapOperand)[IOperand::DOUBLE] = &OperandFactory::createDouble;
+    _mapOperand = new std::map<IOperand::eOperandType, funcOperand>();
+    (*_mapOperand)[IOperand::INT8] = &OperandFactory::createInt8;
+    (*_mapOperand)[IOperand::INT16] = &OperandFactory::createInt16;
+    (*_mapOperand)[IOperand::INT32] = &OperandFactory::createInt32;
+    (*_mapOperand)[IOperand::FLOAT] = &OperandFactory::createFloat;
+    (*_mapOperand)[IOperand::DOUBLE] = &OperandFactory::createDouble;
 }
 
 IOperand const * OperandFactory::createOperand(IOperand::eOperandType type, std::string const & value) const
 {
-    funcOperand func = (*mapOperand)[type];
+    funcOperand func = (*_mapOperand)[type];
     return ((this->*func)(value));
 }

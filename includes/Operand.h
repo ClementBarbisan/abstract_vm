@@ -56,7 +56,7 @@ class Operand : public IOperand
     
 		int getPrecision() const
 		{
-			return (1);
+			return (getType());
 		}
     
 		eOperandType getType() const

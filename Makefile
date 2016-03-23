@@ -1,10 +1,12 @@
 NAME = avm
 
-SRC = abstract.cpp\
-		parser.cpp\
-		commands.cpp\
-		stack.cpp\
-		lexer.cpp
+SRC = Abstract.cpp\
+	  	QueueFunctions.cpp\
+		OperandFactory.cpp\
+		Commands.cpp\
+		Parser.cpp\
+		StackValue.cpp\
+		Lexer.cpp
 
 OBJ = $(SRC:.cpp=.o)
 

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.cpp                                        :+:      :+:    :+:   */
+/*   Parser.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cbarbisa <cbarbisa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,73 +10,73 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <parser.h>
-#include <stack.h>
+#include <Parser.h>
+#include <queueFunctions.h>
 #include <iostream>
 
-parser::parser()
+Parser::Parser()
 {
 	this->_countLine = 0;
-	this->_stack = new Stack();
+	this->_queue = new Queue();
 }
 
-parser::parser(Stack *stack)
+Parser::Parser(Queue *queue)
 {
     this->_countLine = 0;
-	this->_stack = stack;
+	this->_queue = queue;
 }
 
-parser::parser(parser const & src)
+Parser::Parser(Parser const & src)
 {
     *this = src;
 }
 
-parser::~parser()
+Parser::~Parser()
 {
     return;
 }
 
-parser const & parser::operator=(parser const & src)
+Parser const & Parser::operator=(Parser const & src)
 {
     this->_countLine = src.getCountLine();
     this->_commands = src.getCommands();
-	this->_stack = src.getFunctions();
+	this->_queue = src.getFunctions();
     return(*this);
 }
 
-Stack *parser::getFunctions() const
+Queue *Parser::getFunctions() const
 {
-	return (this->_stack);
+	return (this->_queue);
 }
 
-void    parser::addCommand(const std::string name, const std::string regex)
+void    Parser::addCommand(const std::string name, const std::string regex)
 {
     std::regex reg(regex);
     std::cout << regex << std::endl;
     this->_commands[name] = reg;
 }
 
-void    parser::_incrementCountLine()
+void    Parser::_incrementCountLine()
 {
     this->_countLine++;
 }
 
-bool parser::_addFunctionToStack(std::string const name)
+bool Parser::_addFunctionToQueue(std::string const name)
 {
-	return(this->_stack->addFunctionToStack(name));
+	return(this->_queue->addFunctionToQueue(name));
 }
 
-int parser::getCountLine() const
+int Parser::getCountLine() const
 {
     return(this->_countLine);
 }
 
-std::map<std::string, std::regex> const & parser::getCommands() const
+std::map<std::string, std::regex> const & Parser::getCommands() const
 {
     return (this->_commands);
 };
 
-bool  parser::checkLine(std::string line)
+bool  Parser::checkLine(std::string line)
 {
     std::map<std::string, std::regex>::iterator it;
     for (it = this->_commands.begin(); it != this->_commands.end(); it++)
@@ -86,7 +86,7 @@ bool  parser::checkLine(std::string line)
             std::string replace = std::regex_replace(line, it->second, "");
             if (replace == "" || replace[0] == ';')
 			{
-                this->_addFunctionToStack(line);
+                this->_addFunctionToQueue(line);
 				return(true);
 			}
 			else

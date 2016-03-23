@@ -10,17 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stack.h>
+#include <StackValue.h>
+#include <IOperand.h>
 
 Stack::Stack()
 {
-	this->_stack = new std::vector< std::vector<std::string> >;
-}
-
-Stack::Stack(Commands * commands)
-{
-	this->_stack = new std::vector< std::vector<std::string> >;
-	this->_commands = commands;
+	this->_stack = new std::list<IOperand const *>;
 }
 
 Stack::Stack(Stack const & src)
@@ -30,8 +25,7 @@ Stack::Stack(Stack const & src)
 
 Stack const & Stack::operator=(Stack const & src)
 {
-	this->_stack = src.getStack();
-	this->_commands = src.getCommands();
+	this->_stack = &src.getStack();
 	return(*this);
 }
 
@@ -40,32 +34,18 @@ Stack::~Stack()
 	return;
 }
 
-std::vector< std::vector<std::string> > *Stack::getStack() const
+std::list<IOperand const *> & Stack::getStack() const
 {
-	return(this->_stack);
+	return(*this->_stack);
 }
 
-Commands *Stack::getCommands() const
+void Stack::addValueToStack(IOperand const * value)
 {
-	return(this->_commands);
+	this->_stack->push_front(value);
 }
 
-void Stack::setCommands(Commands *commands)
+void Stack::unstack()
 {
-	this->_commands = commands;
-}
-
-bool Stack::addFunctionToStack(std::string const name)
-{
-	std::vector<std::string> functions;
-	functions.push_back(name);
-	functions.push_back(name);
-	functions.push_back(name);
-	this->_stack->push_back(functions);
-	return(true);
-}
-
-bool Stack::unstack()
-{
-	return(true);
+    if (!_stack->empty())
+        _stack->pop_front();
 }

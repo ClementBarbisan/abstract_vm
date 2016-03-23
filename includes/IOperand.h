@@ -15,11 +15,11 @@ class IOperand {
 	public:
 	typedef enum    eOperandType
 	{
-		INT8,
-		INT16,
-		INT32,
-		DOUBLE,
-		FLOAT
+		INT8 = 1,
+		INT16 = 2,
+		INT32 = 3,
+		DOUBLE = 4,
+		FLOAT = 5
 	}				eOperandType;
 		virtual int getPrecision() const = 0;
 		virtual eOperandType getType() const = 0;

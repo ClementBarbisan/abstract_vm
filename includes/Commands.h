@@ -1,10 +1,10 @@
-#ifndef ABSTRACT_VM_COMMANDS_H
-#define ABSTRACT_VM_COMMANDS_H
+#ifndef COMMANDS_H
+# define COMMANDS_H
 
-#include <functional>
-#include <map>
-#include <string>
-#include <list>
+# include <functional>
+# include <map>
+# include <string>
+# include <list>
 
 class IOperand;
 class Stack;
@@ -13,10 +13,10 @@ class OperandFactory;
 class Commands
 {
     typedef void (Commands::*ptrVoidFunc)(int lineNb);
-    typedef void (Commands::*ptrFunc)(IOperand &, int lineNb);
+    typedef void (Commands::*ptrFunc)(IOperand const &, int lineNb);
 	private:
-        std::string     commandsVoid[9];
-        std::string     commands[2];
+        std::string     _commandsVoid[9];
+        std::string     _commands[2];
         Commands(Commands const &);
         Commands(void);
         Commands const & operator=(Commands const &);
@@ -45,8 +45,8 @@ class Commands
                 std::list<std::string> *_errorList;
                 std::string _msg;
         };
-        void push(IOperand & value, int lineNb);
-        void assert(IOperand & value, int lineNb);
+        void push(IOperand const & value, int lineNb);
+        void assert(IOperand const & value, int lineNb);
         void pop(int lineNb);
         void dump(int lineNb);
         void add(int lineNb);
@@ -56,9 +56,11 @@ class Commands
         void mod(int lineNb);
         void print(int lineNb);
         void exit(int lineNb);
-		void executeCommand(std::string name, IOperand & value, int line);
-        void executeCommand(std::string name, int line);
+		void executeCommand(std::string const name, IOperand const & value, int line);
+        void executeCommand(std::string const name, int line);
 		Stack & getStackValue(void) const;
+        std::string const *getCommands() const;
+        std::string const *getCommandsVoid() const;
         bool    getExit() const;
         Commands(Stack & stack, OperandFactory & factory);
 		~Commands(void);

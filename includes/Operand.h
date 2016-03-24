@@ -1,20 +1,12 @@
-//
-//  Operand.h
-//  abstract_vm
-//
-//  Created by ClémentBarbisan on 09/03/2016.
-//  Copyright © 2016 Clement BARBISAN. All rights reserved.
-//
+#ifndef OPERAND_H
+# define OPERAND_H
 
-#ifndef Operand_h
-#define Operand_h
-
-#include <stdio.h>
-#include <string>
-#include <IOperand.h>
-#include <exception>
-#include <sstream>
-#include <OperandFactory.h>
+# include <stdio.h>
+# include <string>
+# include <IOperand.h>
+# include <exception>
+# include <sstream>
+# include <OperandFactory.h>
 
 template <typename T>
 class Operand : public IOperand

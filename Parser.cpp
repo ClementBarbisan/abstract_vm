@@ -1,59 +1,24 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Parser.cpp                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: cbarbisa <cbarbisa@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/12/01 15:21:38 by cbarbisa          #+#    #+#             */
-/*   Updated: 2015/12/01 16:15:18 by cbarbisa         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <Parser.h>
-#include <queueFunctions.h>
+#include <QueueFunctions.h>
+#include <Commands.h>
+#include <Lexer.h>
 #include <iostream>
+#include <instruction.h>
+#include <OperandFactory.h>
 
-Parser::Parser()
+Parser::Parser(Queue & queue, Commands & commands, Lexer & lexer, OperandFactory & factory) : _queue(queue), _commands(commands), _parserList(lexer.getParserList()), _factory(factory)
 {
 	this->_countLine = 0;
-	this->_queue = new Queue();
-}
-
-Parser::Parser(Queue *queue)
-{
-    this->_countLine = 0;
-	this->_queue = queue;
-}
-
-Parser::Parser(Parser const & src)
-{
-    *this = src;
 }
 
 Parser::~Parser()
 {
-    return;
+    
 }
 
-Parser const & Parser::operator=(Parser const & src)
-{
-    this->_countLine = src.getCountLine();
-    this->_commands = src.getCommands();
-	this->_queue = src.getFunctions();
-    return(*this);
-}
-
-Queue *Parser::getFunctions() const
+Queue & Parser::getFunctions() const
 {
 	return (this->_queue);
-}
-
-void    Parser::addCommand(const std::string name, const std::string regex)
-{
-    std::regex reg(regex);
-    std::cout << regex << std::endl;
-    this->_commands[name] = reg;
 }
 
 void    Parser::_incrementCountLine()
@@ -61,37 +26,56 @@ void    Parser::_incrementCountLine()
     this->_countLine++;
 }
 
-bool Parser::_addFunctionToQueue(std::string const name)
+void    Parser::_addFunctionToQueue(s_instruct *instruction, int lineNb)
 {
-	return(this->_queue->addFunctionToQueue(name));
+	this->_queue.addFunctionToQueue(instruction, lineNb);
 }
 
-int Parser::getCountLine() const
+int     Parser::getCountLine() const
 {
     return(this->_countLine);
 }
 
-std::map<std::string, std::regex> const & Parser::getCommands() const
+std::list< std::list<std::string const> > & Parser::getList()
 {
-    return (this->_commands);
-};
+    return (_parserList);
+}
 
-bool  Parser::checkLine(std::string line)
+IOperand const * Parser::_createOperand(std::list<std::string const> operand) const
 {
-    std::map<std::string, std::regex>::iterator it;
-    for (it = this->_commands.begin(); it != this->_commands.end(); it++)
+    IOperand::eOperandType type = _factory.getEnumType(operand.front());
+    operand.pop_front();
+    return (_factory.createOperand(type, operand.front()));
+}
+
+void    Parser::checkLine(std::string const line, std::list<std::string const> operand, int lineNb) const
+{
+    for (int i = 0; i < 2; i++)
     {
-        if (line.find(it->first) != std::string::npos)
+        if (line == _commands.getCommands()[i])
         {
-            std::string replace = std::regex_replace(line, it->second, "");
-            if (replace == "" || replace[0] == ';')
-			{
-                this->_addFunctionToQueue(line);
-				return(true);
-			}
-			else
-                return(false);
+            s_instruct *instruction = new s_instruct();
+            instruction->func = line;
+            instruction->value = _createOperand(operand);
+            _queue.addFunctionToQueue(instruction, lineNb);
+            return;
         }
     }
-    return(false);
+    throw std::exception();
+}
+
+void    Parser::checkLine(std::string const line, int lineNb) const
+{
+    for (int i = 0; i < 9; i++)
+    {
+        if (_commands.getCommandsVoid()[i] == line)
+        {
+            s_instruct *instruction = new s_instruct();
+            instruction->func = line;
+            instruction->value = NULL;
+            _queue.addFunctionToQueue(instruction, lineNb);
+            return;
+        }
+    }
+    throw std::exception();
 }

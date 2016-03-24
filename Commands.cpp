@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   commands.cpp                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: cbarbisa <cbarbisa@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/12/01 15:22:52 by cbarbisa          #+#    #+#             */
-/*   Updated: 2015/12/01 15:23:07 by cbarbisa         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <Commands.h>
 #include <StackValue.h>
 #include <OperandFactory.h>
@@ -92,17 +80,17 @@ Commands::Commands(Stack & stack, OperandFactory & factory) : _stack(stack), _fa
     (*_mapVoidFunc)["mod"] = &Commands::mod;
     (*_mapVoidFunc)["print"] = &Commands::print;
     (*_mapVoidFunc)["exit"] = &Commands::exit;
-    commandsVoid[0] = "pop";
-    commandsVoid[1] = "dump";
-    commandsVoid[2] = "add";
-    commandsVoid[3] = "sub";
-    commandsVoid[4] = "mul";
-    commandsVoid[5] = "div";
-    commandsVoid[6] = "mod";
-    commandsVoid[7] = "print";
-    commandsVoid[8] = "exit";
-    commands[0] = "push";
-    commands[1] = "assert";
+    _commandsVoid[0] = "pop";
+    _commandsVoid[1] = "dump";
+    _commandsVoid[2] = "add";
+    _commandsVoid[3] = "sub";
+    _commandsVoid[4] = "mul";
+    _commandsVoid[5] = "div";
+    _commandsVoid[6] = "mod";
+    _commandsVoid[7] = "print";
+    _commandsVoid[8] = "exit";
+    _commands[0] = "push";
+    _commands[1] = "assert";
 }
 
 Commands::~Commands()
@@ -111,11 +99,23 @@ Commands::~Commands()
     {
         std::cout << *it << std::endl;
     }
+    _mapFunc->erase(_mapFunc->begin(), _mapFunc->end());
     _errorList->erase(_errorList->begin(), _errorList->end());
     delete _errorList;
+    delete _mapFunc;
 }
 
-void    Commands::executeCommand(std::string name, int line)
+std::string const *Commands::getCommands() const
+{
+    return (_commands);
+}
+
+std::string const *Commands::getCommandsVoid() const
+{
+    return (_commandsVoid);
+}
+
+void    Commands::executeCommand(std::string const name, int line)
 {
     if ((*_mapVoidFunc)[name])
     {
@@ -126,7 +126,7 @@ void    Commands::executeCommand(std::string name, int line)
     throw Commands::executeException("Command not found", name, _errorList, line);
 }
 
-void    Commands::executeCommand(std::string name, IOperand & value, int line)
+void    Commands::executeCommand(std::string const name, IOperand const & value, int line)
 {
     if ((*_mapFunc)[name])
     {
@@ -147,13 +147,13 @@ Stack & Commands::getStackValue() const
     return (_stack);
 }
 
-void Commands::push(IOperand & value, int lineNb)
+void Commands::push(IOperand const & value, int lineNb)
 {
     lineNb = 0;
     _stack.addValueToStack(&value);
 }
 
-void Commands::assert(IOperand & value, int lineNb)
+void Commands::assert(IOperand const & value, int lineNb)
 {
     if (!_stack.getStack().empty())
     {

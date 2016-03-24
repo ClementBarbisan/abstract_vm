@@ -32,6 +32,7 @@
 		2E64F2F51CA2D62500833E0C /* QueueFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QueueFunctions.cpp; sourceTree = "<group>"; };
 		2E64F2F81CA2D65900833E0C /* QueueFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QueueFunctions.h; path = includes/QueueFunctions.h; sourceTree = "<group>"; };
 		2E66A8C51C69FC6300565830 /* abstract_vm */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = abstract_vm; sourceTree = BUILT_PRODUCTS_DIR; };
+		2EE2258A1CA41BDA004B61B4 /* instruction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = instruction.h; path = includes/instruction.h; sourceTree = "<group>"; };
 		2EFDB7911C6B2E0900247957 /* Abstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Abstract.h; path = includes/Abstract.h; sourceTree = SOURCE_ROOT; };
 		2EFDB7921C6B2E0900247957 /* Commands.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Commands.h; path = includes/Commands.h; sourceTree = SOURCE_ROOT; };
 		2EFDB7931C6B2E0900247957 /* IOperand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IOperand.h; path = includes/IOperand.h; sourceTree = SOURCE_ROOT; };
@@ -62,6 +63,7 @@
 		2E66A8BC1C69FC6200565830 = {
 			isa = PBXGroup;
 			children = (
+				2EE2258A1CA41BDA004B61B4 /* instruction.h */,
 				2E64F2F81CA2D65900833E0C /* QueueFunctions.h */,
 				2E64F2F51CA2D62500833E0C /* QueueFunctions.cpp */,
 				B0166AC91C909D9800413A39 /* OperandFactory.h */,

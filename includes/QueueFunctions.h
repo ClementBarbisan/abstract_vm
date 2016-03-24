@@ -1,26 +1,29 @@
-//
-//  queue.hpp
-//  abstract_vm
-//
-//  Created by Clement BARBISAN on 3/23/16.
-//  Copyright © 2016 Clement BARBISAN. All rights reserved.
-//
+#ifndef QUEUEFUNCTIONS_H
+# define QUEUEFUNCTIONS_H
 
-#ifndef queue_hpp
-#define queue_hpp
+# include <stdio.h>
+# include <string>
+# include <queue>
+# include <list>
+# include <instruction.h>
 
-#include <stdio.h>
-#include <string>
-#include <queue>
-#include <vector>
+class Commands;
 
 class Queue
 {
     private:
-        std::queue< std::vector<std::string> > _queue;
+        std::queue<s_instruct *>            *_queue;
+        std::list<int>                      *_countLine;
+        Commands               &            _commands;
+        Queue();
+        Queue(Queue const & cp);
+        Queue & operator=(Queue const & cp);
     public:
-        bool    addFunctionToQueue(std::string name);
-    
+        Queue(Commands & commands);
+        ~Queue();
+        void                                executeNextCommand();
+        void                                addFunctionToQueue(s_instruct *instruction, int lineNb);
+        std::queue<s_instruct *> const &    getQueue() const;
 };
 
 #endif /* queue_hpp */

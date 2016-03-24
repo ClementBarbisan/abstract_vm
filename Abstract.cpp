@@ -1,43 +1,44 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   abstract.cpp                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: cbarbisa <cbarbisa@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/12/01 15:21:07 by cbarbisa          #+#    #+#             */
-/*   Updated: 2016/03/23 15:05:02 by cbarbisa         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <Abstract.h>
 #include <Parser.h>
+#include <Commands.h>
+#include <OperandFactory.h>
+#include <QueueFunctions.h>
+#include <StackValue.h>
 #include <Lexer.h>
 #include <fstream>
 
-void    readFile(Lexer *Lexer, char* filename)
+void        readFile(Lexer & lexer, char* filename)
 {
-    int lineNb;
-    std::string line;
-    std::ifstream file(filename);
+    int             lineNb;
+    std::string     line;
+    std::ifstream   file(filename);
     
     lineNb = 0;
-    while (std::getline(file, line) && line.length() > 0)
+    while (std::getline(file, line))
     {
-        try
+        if (line.length() > 0)
         {
-            std::cout << line << std::endl;
-            Lexer->checkLine(line, lineNb);
-        }
-        catch (Lexer::lexicalException& e)
-        {
-            
+            try
+            {
+                std::cout << line << std::endl;
+                lexer.checkLine(line, lineNb);
+            }
+            catch (Lexer::lexicalException& e)
+            {
+            }
         }
         lineNb++;
     }
 }
 
-void    standardEntryReading(Lexer *Lexer)
+std::string trim(std::string line)
+{
+    size_t first = line.find_first_not_of(' ');
+    size_t last = line.find_last_not_of(' ');
+    return line.substr(first, (last-first+1));
+}
+
+void        standardEntryReading(Lexer & lexer)
 {
     int			lineNb;
     std::string line;
@@ -45,37 +46,77 @@ void    standardEntryReading(Lexer *Lexer)
     lineNb = 0;
     try
     {
-        while (true)
+        while (line.length() == 0 || trim(line) != "exit")
         {
             std::getline(std::cin, line);
-            Lexer->checkLine(line, lineNb);
+            if (line.length() > 0)
+                lexer.checkLine(line, lineNb);
             lineNb++;
         }
     }
     catch (Lexer::lexicalException& e)
     {
-        
     }
 }
 
-//void    parseFile(Parser *currentParser)
-//{
-	
-//}
-
-int main(int argc, char* argv[])
+void        executeInstructions(Queue & queue)
 {
-//    Parser	parser;
-    Lexer	Lexer;
+    try
+    {
+        while (!queue.getQueue().empty())
+            queue.executeNextCommand();
+    }
+    catch (std::exception &e)
+    {
+        std::cout << e.what();
+    }
+   
+}
+
+void        parseFile(Lexer & lexer)
+{
+    OperandFactory  factory;
+    Stack           stack;
+    Commands        commands(stack, factory);
+    Queue           queue(commands);
+    Parser          parser(queue, commands, lexer, factory);
+	
+    try
+    {
+        while (!parser.getList().empty())
+        {
+            std::list<std::string const> instructions = parser.getList().front();
+            if (instructions.size() == 2)
+            {
+                std::string const line = instructions.front();
+                instructions.pop_front();
+                parser.checkLine(line, instructions, lexer.getLineNb().front());
+            }
+            else
+                parser.checkLine(instructions.front(), lexer.getLineNb().front());
+            lexer.getLineNb().pop_front();
+        }
+        executeInstructions(queue);
+    }
+    catch (std::exception &e)
+    {
+        std::cout << e.what();
+    }
+}
+
+int         main(int argc, char* argv[])
+{
+    Lexer	lexer;
 
     if (argc == 1)
-        standardEntryReading(&Lexer);
+        standardEntryReading(lexer);
     else if (argc == 2)
-        readFile(&Lexer, argv[1]);
+        readFile(lexer, argv[1]);
     else
         std::cout << "Too much arguments : Usage - ./avm [filename]" << std::endl;
-    if (Lexer.getErrorList()->size() > 0)
+    if (lexer.getErrorList().size() > 0)
         return (-1);
-//    parseFile(&parser);
+    parseFile(lexer);
+    return (0);
 }
 

@@ -69,6 +69,8 @@ Commands::Commands(Stack & stack, OperandFactory & factory) : _stack(stack), _fa
 {
     _exitApp = false;
     _errorList = new std::list<std::string>();
+    _mapFunc = new std::map<std::string, ptrFunc>();
+    _mapVoidFunc = new std::map<std::string, ptrVoidFunc>();
     (*_mapFunc)["push"] = &Commands::push;
     (*_mapFunc)["assert"] = &Commands::assert;
     (*_mapVoidFunc)["pop"] = &Commands::pop;
@@ -186,7 +188,7 @@ void Commands::dump(int lineNb)
 
 void Commands::add(int lineNb)
 {
-    if (_stack.getStack().size() < 2)
+    if (_stack.getStack().size() == 2)
     {
         IOperand const & value1 = *_stack.getStack().front();
         _stack.unstack();
@@ -201,7 +203,7 @@ void Commands::add(int lineNb)
 
 void Commands::sub(int lineNb)
 {
-    if (_stack.getStack().size() < 2)
+    if (_stack.getStack().size() == 2)
     {
         IOperand const & value1 = *_stack.getStack().front();
         _stack.unstack();
@@ -216,7 +218,7 @@ void Commands::sub(int lineNb)
 
 void Commands::mul(int lineNb)
 {
-    if (_stack.getStack().size() < 2)
+    if (_stack.getStack().size() == 2)
     {
         IOperand const & value1 = *_stack.getStack().front();
         _stack.unstack();
@@ -231,7 +233,7 @@ void Commands::mul(int lineNb)
 
 void Commands::div(int lineNb)
 {
-    if (_stack.getStack().size() < 2)
+    if (_stack.getStack().size() == 2)
     {
         IOperand const & value1 = *_stack.getStack().front();
         _stack.unstack();
@@ -246,7 +248,7 @@ void Commands::div(int lineNb)
 
 void Commands::mod(int lineNb)
 {
-    if (_stack.getStack().size() < 2)
+    if (_stack.getStack().size() == 2)
     {
         IOperand const & value1 = *_stack.getStack().front();
         _stack.unstack();

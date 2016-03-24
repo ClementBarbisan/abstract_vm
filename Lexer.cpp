@@ -55,8 +55,8 @@ void    Lexer::_addLineToParser(std::string line, int lineNb) const
     std::list<std::string const> tokens;
     
     line = line.substr(0, line.find(";"));
-    std::regex_match(line, matches, std::regex("[a-zA-Z0-9.]+"));
-	if (matches.length() > 3)
+    std::regex_match(line, matches, std::regex("[a-zA-Z0-9\\.]+"));
+	if (matches.size() > 3)
 		throw Lexer::lexicalException("too much tokens", line, lineNb, *_errorList);
     for (std::smatch::iterator it = matches.begin(); it < matches.end(); it++)
         tokens.push_back(*it);

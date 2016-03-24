@@ -59,11 +59,11 @@ void        standardEntryReading(Lexer & lexer)
     }
 }
 
-void        executeInstructions(Queue & queue)
+void        executeInstructions(Queue & queue, Commands & commands)
 {
     try
     {
-        while (!queue.getQueue().empty())
+        while (!queue.getQueue().empty() && !commands.getExit())
             queue.executeNextCommand();
     }
     catch (std::exception &e)
@@ -80,7 +80,6 @@ void        parseFile(Lexer & lexer)
     Commands        commands(stack, factory);
     Queue           queue(commands);
     Parser          parser(queue, commands, lexer, factory);
-	
     try
     {
         while (!parser.getList().empty())
@@ -95,8 +94,9 @@ void        parseFile(Lexer & lexer)
             else
                 parser.checkLine(instructions.front(), lexer.getLineNb().front());
             lexer.getLineNb().pop_front();
+            parser.getList().pop_front();
         }
-        executeInstructions(queue);
+        executeInstructions(queue, commands);
     }
     catch (std::exception &e)
     {

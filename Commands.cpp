@@ -19,14 +19,14 @@ void Commands::executeException::searchError(int nbLine) const
     _errorList->push_back(error);
 }
 
-Commands::executeException::executeException(std::string msg, std::list<std::string> *errorList, int nbLine) : std::logic_error(msg),
+Commands::executeException::executeException(std::string msg, std::list<std::string> *errorList, int nbLine) : std::runtime_error(msg),
     _errorList(errorList)
 {
     _msg = msg;
     searchError(nbLine);
 }
 
-Commands::executeException::executeException(std::string msg, std::string line, std::list<std::string> *errorList, int nbLine) : std::logic_error(msg),
+Commands::executeException::executeException(std::string msg, std::string line, std::list<std::string> *errorList, int nbLine) : std::runtime_error(msg),
 _errorList(errorList)
 {
     _msg = msg;
@@ -38,7 +38,7 @@ Commands::executeException::~executeException() throw()
     
 }
 
-Commands::executeException::executeException(Commands::executeException const & cp) : std::logic_error(cp.getMsg()),
+Commands::executeException::executeException(Commands::executeException const & cp) : std::runtime_error(cp.getMsg()),
     _errorList(cp.getErrorList())
 {
     *this = cp;
@@ -166,7 +166,7 @@ void Commands::assert(IOperand const & value, int lineNb)
         }
     }
     else
-        Commands::executeException("Empty stack, abort assert", _errorList, lineNb);
+        throw Commands::executeException("Empty stack, abort assert", _errorList, lineNb);
 }
 
 void Commands::pop(int lineNb)
@@ -176,7 +176,7 @@ void Commands::pop(int lineNb)
         _stack.unstack();
     }
     else
-        Commands::executeException("Empty stack, abort pop", _errorList, lineNb);
+        throw Commands::executeException("Empty stack, abort pop", _errorList, lineNb);
 }
 
 void Commands::dump(int lineNb)
@@ -198,7 +198,7 @@ void Commands::add(int lineNb)
         _stack.addValueToStack(result);
     }
     else
-        Commands::executeException("Not enough elements on stack, abort add", _errorList, lineNb);
+        throw Commands::executeException("Not enough elements on stack, abort add", _errorList, lineNb);
 }
 
 void Commands::sub(int lineNb)
@@ -213,7 +213,7 @@ void Commands::sub(int lineNb)
         _stack.addValueToStack(result);
     }
     else
-        Commands::executeException("Not enough elements on stack, abort sub", _errorList, lineNb);
+        throw Commands::executeException("Not enough elements on stack, abort sub", _errorList, lineNb);
 }
 
 void Commands::mul(int lineNb)
@@ -228,7 +228,7 @@ void Commands::mul(int lineNb)
         _stack.addValueToStack(result);
     }
     else
-        Commands::executeException("Not enough elements on stack, abort mul", _errorList, lineNb);
+        throw Commands::executeException("Not enough elements on stack, abort mul", _errorList, lineNb);
 }
 
 void Commands::div(int lineNb)
@@ -243,7 +243,7 @@ void Commands::div(int lineNb)
         _stack.addValueToStack(result);
     }
     else
-        Commands::executeException("Not enough elements on stack, abort div", _errorList, lineNb);
+        throw Commands::executeException("Not enough elements on stack, abort div", _errorList, lineNb);
 }
 
 void Commands::mod(int lineNb)
@@ -258,7 +258,7 @@ void Commands::mod(int lineNb)
         _stack.addValueToStack(result);
     }
     else
-        Commands::executeException("Not enough elements on stack, abort mod", _errorList, lineNb);
+        throw Commands::executeException("Not enough elements on stack, abort mod", _errorList, lineNb);
 }
 
 void Commands::print(int lineNb)
@@ -271,7 +271,7 @@ void Commands::print(int lineNb)
             Commands::executeException("Value on top is not an integer, abort print", _errorList, lineNb);
     }
     else
-         Commands::executeException("Stack is empty, abort print", _errorList, lineNb);
+         throw Commands::executeException("Stack is empty, abort print", _errorList, lineNb);
 }
 
 void Commands::exit(int lineNb)

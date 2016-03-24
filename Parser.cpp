@@ -9,12 +9,22 @@
 Parser::Parser(Queue & queue, Commands & commands, Lexer & lexer, OperandFactory & factory) : _queue(queue), _commands(commands), _parserList(lexer.getParserList()), _factory(factory)
 {
 	this->_countLine = 0;
+	_errorList = new std::list<std::string const>();
 }
 
 Parser::~Parser()
 {
-    
+	for (std::list<std::string const>::iterator it = _errorList->begin(); it != _errorList->end(); it++)
+	 std::cout << *it << std::endl;
+	_errorList->erase(_errorList->begin(), _errorList->end());
+	delete _errorList;
 }
+
+std::list<std::string const> &	Parser::getErrorList() const
+{
+	return (*_errorList);
+}
+
 
 Queue & Parser::getFunctions() const
 {

@@ -16,11 +16,11 @@ class IOperand;
 class Parser
 {
     private:
-		
         int _countLine;
 		Queue  &                                    _queue;
         Commands &                                  _commands;
         std::list< std::list<std::string const> > & _parserList;
+		std::list<std::string const>				*_errorList;
         OperandFactory &                            _factory;
         void                                        _incrementCountLine();
 		void                                        _addFunctionToQueue(s_instruct *instruction, int lineNb);
@@ -31,7 +31,8 @@ class Parser
     public:
         Parser(Queue & queue, Commands & commands, Lexer & lexer, OperandFactory & factory);
         ~Parser(void);
-        void                                        checkLine(std::string const line, std::list<std::string const> const nb, int lineNb) const;
+		std::list<std::string const> &				getErrorList() const;
+		void                                        checkLine(std::string const line, std::list<std::string const> const nb, int lineNb) const;
         void                                        checkLine(std::string const line, int lineNb) const;
 		Queue &                                     getFunctions() const;
         std::list< std::list<std::string const> > & getList();

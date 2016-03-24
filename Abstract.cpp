@@ -66,10 +66,14 @@ void        executeInstructions(Queue & queue, Commands & commands)
         while (!queue.getQueue().empty() && !commands.getExit())
             queue.executeNextCommand();
     }
-    catch (std::exception &e)
+	catch (Commands::executeException &e)
     {
-        std::cout << e.what();
+		
     }
+	catch (std::exception &e)
+	{
+		std::cout << "Operand factory : " << e.what();
+	}
    
 }
 
@@ -80,10 +84,11 @@ void        parseFile(Lexer & lexer)
     Commands        commands(stack, factory);
     Queue           queue(commands);
     Parser          parser(queue, commands, lexer, factory);
-    try
-    {
-        while (!parser.getList().empty())
-        {
+	
+	while (!parser.getList().empty())
+	{
+		try
+		{
             std::list<std::string const> instructions = parser.getList().front();
             if (instructions.size() == 2)
             {
@@ -93,15 +98,17 @@ void        parseFile(Lexer & lexer)
             }
             else
                 parser.checkLine(instructions.front(), lexer.getLineNb().front());
-            lexer.getLineNb().pop_front();
-            parser.getList().pop_front();
-        }
-        executeInstructions(queue, commands);
-    }
-    catch (std::exception &e)
-    {
-        std::cout << e.what();
-    }
+				
+		}
+		catch (std::exception &e)
+		{
+			std::cout << "Parser : " << e.what();
+		}
+		lexer.getLineNb().pop_front();
+		parser.getList().pop_front();
+	}
+	if (parser.getErrorList().size() == 0)
+		executeInstructions(queue, commands);
 }
 
 int         main(int argc, char* argv[])

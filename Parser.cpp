@@ -55,7 +55,7 @@ Parser::parsingException & Parser::parsingException::operator=(Parser::parsingEx
 
 Parser::Parser(Queue & queue, Commands & commands, Lexer & lexer, OperandFactory & factory) : _queue(queue), _commands(commands), _parserList(lexer.getParserList()), _factory(factory)
 {
-	this->_countLine = 0;
+    _hasExit = false;
 	_errorList = new std::list<std::string const>();
 }
 
@@ -78,19 +78,9 @@ Queue & Parser::getFunctions() const
 	return (this->_queue);
 }
 
-void    Parser::_incrementCountLine()
-{
-    this->_countLine++;
-}
-
 void    Parser::_addFunctionToQueue(s_instruct *instruction, int lineNb)
 {
 	this->_queue.addFunctionToQueue(instruction, lineNb);
-}
-
-int     Parser::getCountLine() const
-{
-    return(this->_countLine);
 }
 
 std::list< std::list<std::string const> > & Parser::getList()
@@ -113,6 +103,11 @@ IOperand const * Parser::_createOperand(std::list<std::string const> operand, in
     
 }
 
+bool    Parser::getExit() const
+{
+    return (_hasExit);
+}
+
 void    Parser::checkLine(std::string const line, std::list<std::string const> operand, int lineNb) const
 {
     for (int i = 0; i < 2; i++)
@@ -129,12 +124,14 @@ void    Parser::checkLine(std::string const line, std::list<std::string const> o
     throw parsingException("Command not found", line, _errorList, lineNb);
 }
 
-void    Parser::checkLine(std::string const line, int lineNb) const
+void    Parser::checkLine(std::string const line, int lineNb)
 {
     for (int i = 0; i < 9; i++)
     {
         if (_commands.getCommandsVoid()[i] == line)
         {
+            if (line == "exit")
+                _hasExit = true;
             s_instruct *instruction = new s_instruct();
             instruction->func = line;
             instruction->value = NULL;

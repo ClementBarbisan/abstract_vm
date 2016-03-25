@@ -46,7 +46,7 @@ void        standardEntryReading(Lexer & lexer)
     lineNb = 0;
     try
     {
-        while (line.length() == 0 || trim(line) != "exit")
+        while (line.length() == 0 || trim(line) != ";;")
         {
             std::getline(std::cin, line);
             if (line.length() > 0)
@@ -106,6 +106,11 @@ void        parseFile(Lexer & lexer)
 		lexer.getLineNb().pop_front();
 		parser.getList().pop_front();
 	}
+    if (!parser.getExit())
+    {
+        std::cout << "No exit command found." << std::endl;
+        return;
+    }
 	if (parser.getErrorList().empty())
 		executeInstructions(queue, commands);
 }

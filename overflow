@@ -1,0 +1,51 @@
+push int32(200)
+push int32(200)
+mul
+dump
+push int32(200)
+mul
+dump
+push int32(200)
+mul
+dump
+push int32(200)
+mul
+dump
+push int32(200)
+mul
+dump
+push int32(200)
+mul
+dump
+
+push int32(200)
+mul
+dump
+push int32(200)
+mul
+dump
+push int32(200)
+mul
+dump
+push int32(200)
+mul
+dump
+
+
+push int32(200)
+mul
+dump
+push int32(200)
+mul
+dump
+push int32(200)
+mul
+dump
+push int32(200)
+mul
+dump
+push int32(200)
+mul
+dump
+
+exit

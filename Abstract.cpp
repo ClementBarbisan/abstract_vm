@@ -70,7 +70,7 @@ void        executeInstructions(Queue & queue, Commands & commands)
     {
 		
     }
-	catch (std::exception &e)
+	catch (std::runtime_error &e)
 	{
 		std::cout << "Operand factory : " << e.what();
 	}
@@ -90,7 +90,7 @@ void        parseFile(Lexer & lexer)
 		try
 		{
             std::list<std::string const> instructions = parser.getList().front();
-            if (instructions.size() == 2)
+            if (instructions.size() > 1)
             {
                 std::string const line = instructions.front();
                 instructions.pop_front();
@@ -98,16 +98,15 @@ void        parseFile(Lexer & lexer)
             }
             else
                 parser.checkLine(instructions.front(), lexer.getLineNb().front());
-				
 		}
-		catch (std::exception &e)
+        catch (Parser::parsingException &e)
 		{
-			std::cout << "Parser : " << e.what();
+			
 		}
 		lexer.getLineNb().pop_front();
 		parser.getList().pop_front();
 	}
-	if (parser.getErrorList().size() == 0)
+	if (parser.getErrorList().empty())
 		executeInstructions(queue, commands);
 }
 

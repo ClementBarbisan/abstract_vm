@@ -55,21 +55,27 @@ void    Lexer::_addLineToParser(std::string line, int lineNb) const
     std::list<std::string const> tokens;
     
     line = line.substr(0, line.find(";"));
-    std::regex_match(line, matches, std::regex("[a-zA-Z0-9\\.]+"));
-	if (matches.size() > 3)
-		throw Lexer::lexicalException("too much tokens", line, lineNb, *_errorList);
-    for (std::smatch::iterator it = matches.begin(); it < matches.end(); it++)
-        tokens.push_back(*it);
+    while (std::regex_search(line, matches, std::regex("[a-zA-Z0-9\\.]+")))
+    {
+        for (std::smatch::iterator it = matches.begin(); it < matches.end(); it++)
+            tokens.push_back(*it);
+        line = matches.suffix().str();
+    }
+	if (tokens.size() > 3)
+		throw Lexer::lexicalException("Too much tokens", line, lineNb, *_errorList);
     _parserList->push_back(tokens);
     _lineNb->push_back(lineNb);
 }
 
 void    Lexer::checkLine(std::string line, int lineNb) const
 {
-    if (std::regex_match(line, std::regex("[a-z]+( [a-z]{3,6}[0-9]{0,2}\\([-]?[0-9]+(.[0-9]+)?\\))?(;.*)?")))
+    if (std::regex_match(line, std::regex("[a-z]{3,6}[ ]*( ?[a-z]{3,6}[0-9]{0,2}\\([-]?[0-9]+(.[0-9]+)?\\))?(;.*)?")))
         _addLineToParser(line, lineNb);
     else
-        throw Lexer::lexicalException("lexical error", line, lineNb, *_errorList);
+    {
+        
+        throw Lexer::lexicalException("Lexical error", line, lineNb, *_errorList);
+    }
 }
 
 Lexer::lexicalException::lexicalException(std::string msg, std::string line, int lineNb, std::list<std::string const> & errorList): std::logic_error(msg), _errorList(errorList)
@@ -91,8 +97,15 @@ Lexer::lexicalException::lexicalException(Lexer::lexicalException const & cp) : 
 void    Lexer::lexicalException::searchError(std::string line, int nbLine) const
 {
     std::string error;
-    
-    error = "Line " + std::to_string(nbLine) + " : " + line + " : " + what();
+    std::smatch matches;
+    size_t pos = 0;
+    if (std::regex_search(line, matches, std::regex("[a-z]{3,6}[ ]*( ?[a-z]{3,6}[0-9]{0,2}\\(?([-]?[0-9]+(.[0-9]+)?)?\\)?)?(;.*)?")))
+    {
+        pos = line.find(*matches.begin());
+        line.erase(pos, matches.begin()->length());
+        pos += matches.begin()->length() + 1;
+    }
+    error = "Line " + std::to_string(nbLine) + ":" + std::to_string(pos) + " : " + line + " : " + what();
     _errorList.push_back(error);
 }
 

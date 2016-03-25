@@ -76,7 +76,7 @@ class Operand : public IOperand
 		IOperand const * operator+(IOperand const & rhs) const
         {
             std::string string = valueToString(_value + stringToValue(rhs.toString()));
-            if (rhs.getType() < getType())
+            if (rhs.getType() > getType())
                 return (_factory->createOperand(rhs.getType(), string));
             else
                 return (_factory->createOperand(getType(), string));
@@ -85,7 +85,7 @@ class Operand : public IOperand
 		IOperand const * operator-(IOperand const & rhs) const
 		{
             std::string string = valueToString(_value - stringToValue(rhs.toString()));
-            if (rhs.getType() < getType())
+            if (rhs.getType() > getType())
                 return (_factory->createOperand(rhs.getType(), string));
             else
                 return (_factory->createOperand(getType(), string));
@@ -94,7 +94,7 @@ class Operand : public IOperand
 		IOperand const * operator*(IOperand const & rhs) const
 		{
             std::string string = valueToString(_value * stringToValue(rhs.toString()));
-            if (rhs.getType() < getType())
+            if (rhs.getType() > getType())
                 return (_factory->createOperand(rhs.getType(), string));
             else
                 return (_factory->createOperand(getType(), string));
@@ -106,7 +106,7 @@ class Operand : public IOperand
 			if (rightValue == 0)
 				throw std::runtime_error("can't divide by 0");
             std::string string = valueToString(_value / stringToValue(rhs.toString()));
-            if (rhs.getType() < getType())
+            if (rhs.getType() > getType())
                 return (_factory->createOperand(rhs.getType(), string));
             else
                 return (_factory->createOperand(getType(), string));
@@ -118,7 +118,7 @@ class Operand : public IOperand
 			if (rightValue == 0)
 				throw std::runtime_error("can't divide by 0");
             std::string string = valueToString(_value + stringToValue(rhs.toString()));
-            if (rhs.getType() < getType())
+            if (rhs.getType() > getType())
                 return (_factory->createOperand(rhs.getType(), string));
             else
                 return (_factory->createOperand(getType(), string));

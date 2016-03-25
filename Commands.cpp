@@ -19,14 +19,14 @@ void Commands::executeException::searchError(int nbLine) const
     _errorList->push_back(error);
 }
 
-Commands::executeException::executeException(std::string msg, std::list<std::string> *errorList, int nbLine) : std::runtime_error(msg),
+Commands::executeException::executeException(std::string msg, std::list<std::string const> *errorList, int nbLine) : std::runtime_error(msg),
     _errorList(errorList)
 {
     _msg = msg;
     searchError(nbLine);
 }
 
-Commands::executeException::executeException(std::string msg, std::string line, std::list<std::string> *errorList, int nbLine) : std::runtime_error(msg),
+Commands::executeException::executeException(std::string msg, std::string line, std::list<std::string const> *errorList, int nbLine) : std::runtime_error(msg),
 _errorList(errorList)
 {
     _msg = msg;
@@ -44,7 +44,7 @@ Commands::executeException::executeException(Commands::executeException const & 
     *this = cp;
 }
 
-std::list<std::string> *Commands::executeException::getErrorList() const
+std::list<std::string const> *Commands::executeException::getErrorList() const
 {
     return (_errorList);
 }
@@ -68,7 +68,7 @@ Commands::executeException & Commands::executeException::operator=(Commands::exe
 Commands::Commands(Stack & stack, OperandFactory & factory) : _stack(stack), _factory(factory)
 {
     _exitApp = false;
-    _errorList = new std::list<std::string>();
+    _errorList = new std::list<std::string const>();
     _mapFunc = new std::map<std::string, ptrFunc>();
     _mapVoidFunc = new std::map<std::string, ptrVoidFunc>();
     (*_mapFunc)["push"] = &Commands::push;
@@ -97,7 +97,7 @@ Commands::Commands(Stack & stack, OperandFactory & factory) : _stack(stack), _fa
 
 Commands::~Commands()
 {
-    for (std::list<std::string>::iterator it = _errorList->begin(); it != _errorList->end(); it++)
+    for (std::list<std::string const>::iterator it = _errorList->begin(); it != _errorList->end(); it++)
     {
         std::cout << *it << std::endl;
     }

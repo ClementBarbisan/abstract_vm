@@ -30,7 +30,7 @@ IOperand::eOperandType OperandFactory::getEnumType(std::string name)
 {
     if ((*_mapEnum)[name])
         return ((*_mapEnum)[name]);
-    throw std::exception();
+    throw std::runtime_error("Unknown operand type : " + name);
 }
 
 OperandFactory::~OperandFactory()
@@ -64,5 +64,10 @@ IOperand const * OperandFactory::createOperand(IOperand::eOperandType type, std:
         funcOperand func = (*_mapOperand)[type];
         return ((this->*func)(value));
     }
-    throw std::exception();
+    for (std::map<std::string, IOperand::eOperandType>::iterator it = _mapEnum->begin(); it != _mapEnum->end(); it++)
+    {
+        if (it->second == type)
+            throw std::runtime_error("Couldn't create operand of type : " + it->first);
+    }
+    throw std::runtime_error("Unknown operand type.");
 }

@@ -65,10 +65,9 @@ class Operand : public IOperand
             os << value;
             return (os.str());
         }
-    
-        T   stringToValue(std::string const & operandString) const
+        double   stringToValue(std::string const & operandString) const
         {
-            T                   value;
+            double              value;
             std::istringstream  ss(operandString);
             
             ss >> value;
@@ -77,12 +76,12 @@ class Operand : public IOperand
     
 		IOperand const * operator+(IOperand const & rhs) const
         {
-            T   rhsValue = stringToValue(rhs.toString());
+            double   rhsValue = stringToValue(rhs.toString());
             if (_value > std::numeric_limits<T>::max() - rhsValue)
                 throw std::runtime_error(_valueString + " + " + rhs.toString() + " : Overflow");
             if (_value < std::numeric_limits<T>::min() + rhsValue)
                 throw std::runtime_error(_valueString + " + " + rhs.toString() + " : Underflow");
-            std::string string = valueToString(_value + rhsValue);
+            std::string string = valueToString(static_cast<double>(_value) + rhsValue);
             if (rhs.getType() > getType())
                 return (_factory->createOperand(rhs.getType(), string));
             else
@@ -92,12 +91,12 @@ class Operand : public IOperand
 		IOperand const * operator-(IOperand const & rhs) const
 		{
             
-            T   rhsValue = stringToValue(rhs.toString());
+            double   rhsValue = stringToValue(rhs.toString());
             if (_value > std::numeric_limits<T>::max() + rhsValue)
                 throw std::runtime_error(_valueString + " - " + rhs.toString() + " : Overflow");
             if (_value < std::numeric_limits<T>::min() - rhsValue)
                 throw std::runtime_error(_valueString + " - " + rhs.toString() + " : Underflow");
-            std::string string = valueToString(_value - rhsValue);
+            std::string string = valueToString(static_cast<double>(_value) - rhsValue);
             if (rhs.getType() > getType())
                 return (_factory->createOperand(rhs.getType(), string));
             else
@@ -106,12 +105,12 @@ class Operand : public IOperand
     
 		IOperand const * operator*(IOperand const & rhs) const
 		{
-            T   rhsValue = stringToValue(rhs.toString());
+            double   rhsValue = stringToValue(rhs.toString());
             if (_value > std::numeric_limits<T>::max() / rhsValue)
                 throw std::runtime_error(_valueString + " * " + rhs.toString() + " : Overflow");
             if (_value < std::numeric_limits<T>::min() / rhsValue)
                 throw std::runtime_error(_valueString + " * " + rhs.toString() + " : Underflow");
-            std::string string = valueToString(_value * rhsValue);
+            std::string string = valueToString(static_cast<double>(_value) * rhsValue);
             if (rhs.getType() > getType())
                 return (_factory->createOperand(rhs.getType(), string));
             else
@@ -120,14 +119,14 @@ class Operand : public IOperand
     
 		IOperand const * operator/(IOperand const & rhs) const
 		{
-            T   rhsValue = stringToValue(rhs.toString());
-			if (rhsValue == 0)
+            double   rhsValue = stringToValue(rhs.toString());
+			if (rhsValue == 0.0)
 				throw std::runtime_error("can't divide by 0");
             if (_value > std::numeric_limits<T>::max() * rhsValue)
                 throw std::runtime_error(_valueString + " / " + rhs.toString() + " : Overflow");
             if (_value < std::numeric_limits<T>::min() * rhsValue)
                 throw std::runtime_error(_valueString + " / " + rhs.toString() + " : Underflow");
-            std::string string = valueToString(_value / rhsValue);
+            std::string string = valueToString(static_cast<double>(_value) / rhsValue);
             if (rhs.getType() > getType())
                 return (_factory->createOperand(rhs.getType(), string));
             else
@@ -136,10 +135,10 @@ class Operand : public IOperand
     
         IOperand const * operator%(IOperand const & rhs) const
 		{
-            T rightValue = stringToValue(rhs.toString());
-			if (rightValue == 0)
-				throw std::runtime_error("can't divide by 0");
-            std::string string = valueToString(_value + stringToValue(rhs.toString()));
+            int32_t rhsValue = static_cast<int32_t>(stringToValue(rhs.toString()));
+			if (rhsValue == 0)
+				throw std::runtime_error("can't divide by a value < 1");
+            std::string string = valueToString(static_cast<int32_t>(_value) % rhsValue);
             if (rhs.getType() > getType())
                 return (_factory->createOperand(rhs.getType(), string));
             else

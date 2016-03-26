@@ -70,11 +70,6 @@ void        executeInstructions(Queue & queue, Commands & commands)
     {
 		
     }
-	catch (std::runtime_error &e)
-	{
-		std::cout << "Operand factory : " << e.what();
-	}
-   
 }
 
 void        parseFile(Lexer & lexer)
@@ -108,7 +103,7 @@ void        parseFile(Lexer & lexer)
 	}
     if (!parser.getExit())
     {
-        std::cout << "No exit command found." << std::endl;
+        std::cout << "Error : No exit command found." << std::endl;
         return;
     }
 	if (parser.getErrorList().empty())

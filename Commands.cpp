@@ -121,8 +121,15 @@ void    Commands::executeCommand(std::string const name, int line)
 {
     if ((*_mapVoidFunc)[name])
     {
-        ptrVoidFunc func = (*_mapVoidFunc)[name];
-        (this->*func)(line);
+        try
+        {
+            ptrVoidFunc func = (*_mapVoidFunc)[name];
+            (this->*func)(line);
+        }
+        catch (std::runtime_error &e)
+        {
+            throw Commands::executeException(e.what(), name, _errorList, line);
+        }
         return;
     }
     throw Commands::executeException("Command not found", name, _errorList, line);
@@ -132,9 +139,16 @@ void    Commands::executeCommand(std::string const name, IOperand const & value,
 {
     if ((*_mapFunc)[name])
     {
-        ptrFunc func = (*_mapFunc)[name];
-        (this->*func)(value, line);
-        return;
+        try
+        {
+            ptrFunc func = (*_mapFunc)[name];
+            (this->*func)(value, line);
+        }
+        catch (std::runtime_error &e)
+        {
+            throw Commands::executeException(e.what(), name, _errorList, line);
+        }
+    return;
     }
     throw Commands::executeException("Command not found", name, _errorList, line);
 }

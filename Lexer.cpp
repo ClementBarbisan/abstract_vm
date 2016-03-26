@@ -55,7 +55,7 @@ void    Lexer::_addLineToParser(std::string line, int lineNb) const
     std::list<std::string const> tokens;
     
     line = line.substr(0, line.find(";"));
-    while (std::regex_search(line, matches, std::regex("[a-zA-Z0-9\\.]+")))
+    while (std::regex_search(line, matches, std::regex("-?[a-zA-Z0-9\\.]+")))
     {
         for (std::smatch::iterator it = matches.begin(); it < matches.end(); it++)
             tokens.push_back(*it);
@@ -69,7 +69,7 @@ void    Lexer::_addLineToParser(std::string line, int lineNb) const
 
 void    Lexer::checkLine(std::string line, int lineNb) const
 {
-    if (std::regex_match(line, std::regex("[a-z]{3,6}[ ]*( ?[a-z]{3,6}[0-9]{0,2}\\([-]?[0-9]+(.[0-9]+)?\\))?(;.*)?")))
+    if (std::regex_match(line, std::regex("[a-z]{3,6}[ ]*( ?[a-z]{3,6}[0-9]{0,2}\\([-]?[0-9]+(\\.[0-9]+)?\\))?(;.*)?")))
         _addLineToParser(line, lineNb);
     else
     {
@@ -99,7 +99,7 @@ void    Lexer::lexicalException::searchError(std::string line, int nbLine) const
     std::string error;
     std::smatch matches;
     size_t pos = 0;
-    if (std::regex_search(line, matches, std::regex("[a-z]{3,6}[ ]*( ?[a-z]{3,6}[0-9]{0,2}\\(?([-]?[0-9]+(.[0-9]+)?)?\\)?)?(;.*)?")))
+    if (std::regex_search(line, matches, std::regex("[a-z]{3,6}[ ]*( ?[a-z]{3,6}[0-9]{0,2}\\(?([-]?[0-9]+(\\.[0-9]+)?)?\\)?)?(;.*)?")))
     {
         pos = line.find(*matches.begin());
         line.erase(pos, matches.begin()->length());

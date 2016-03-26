@@ -7,6 +7,15 @@
 #include <Lexer.h>
 #include <fstream>
 
+std::string trim(std::string line)
+{
+    if (line.length() == 0)
+        return (line);
+    size_t first = line.find_first_not_of("\t\n\r ");
+    size_t last = line.find_last_not_of("\t\n\r ");
+    return line.substr(first, (last-first+1));
+}
+
 void        readFile(Lexer & lexer, char* filename)
 {
     int             lineNb;
@@ -16,7 +25,7 @@ void        readFile(Lexer & lexer, char* filename)
     lineNb = 0;
     while (std::getline(file, line))
     {
-        if (line.length() > 0)
+        if (trim(line).length() > 0)
         {
             try
             {
@@ -31,13 +40,6 @@ void        readFile(Lexer & lexer, char* filename)
     }
 }
 
-std::string trim(std::string line)
-{
-    size_t first = line.find_first_not_of(' ');
-    size_t last = line.find_last_not_of(' ');
-    return line.substr(first, (last-first+1));
-}
-
 void        standardEntryReading(Lexer & lexer)
 {
     int			lineNb;
@@ -49,7 +51,7 @@ void        standardEntryReading(Lexer & lexer)
         while (line.length() == 0 || trim(line) != ";;")
         {
             std::getline(std::cin, line);
-            if (line.length() > 0)
+            if (trim(line).length() > 0)
                 lexer.checkLine(line, lineNb);
             lineNb++;
         }
@@ -85,14 +87,17 @@ void        parseFile(Lexer & lexer)
 		try
 		{
             std::list<std::string const> instructions = parser.getList().front();
-            if (instructions.size() > 1)
+            if (instructions.size() > 0)
             {
-                std::string const line = instructions.front();
-                instructions.pop_front();
-                parser.checkLine(line, instructions, lexer.getLineNb().front());
+                if (instructions.size() > 1)
+                {
+                    std::string const line = instructions.front();
+                    instructions.pop_front();
+                    parser.checkLine(line, instructions, lexer.getLineNb().front());
+                }
+                else
+                    parser.checkLine(instructions.front(), lexer.getLineNb().front());
             }
-            else
-                parser.checkLine(instructions.front(), lexer.getLineNb().front());
 		}
         catch (Parser::parsingException &e)
 		{

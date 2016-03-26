@@ -19,14 +19,14 @@ void Commands::executeException::searchError(int nbLine) const
     _errorList->push_back(error);
 }
 
-Commands::executeException::executeException(std::string msg, std::list<std::string const> *errorList, int nbLine) : std::runtime_error(msg),
+Commands::executeException::executeException(std::string msg, std::list<std::string const> *errorList, int nbLine) : std::logic_error(msg),
     _errorList(errorList)
 {
     _msg = msg;
     searchError(nbLine);
 }
 
-Commands::executeException::executeException(std::string msg, std::string line, std::list<std::string const> *errorList, int nbLine) : std::runtime_error(msg),
+Commands::executeException::executeException(std::string msg, std::string line, std::list<std::string const> *errorList, int nbLine) : std::logic_error(msg),
 _errorList(errorList)
 {
     _msg = msg;
@@ -38,7 +38,7 @@ Commands::executeException::~executeException() throw()
     
 }
 
-Commands::executeException::executeException(Commands::executeException const & cp) : std::runtime_error(cp.getMsg()),
+Commands::executeException::executeException(Commands::executeException const & cp) : std::logic_error(cp.getMsg()),
     _errorList(cp.getErrorList())
 {
     *this = cp;
@@ -148,7 +148,7 @@ void    Commands::executeCommand(std::string const name, IOperand const & value,
         {
             throw Commands::executeException(e.what(), name, _errorList, line);
         }
-    return;
+        return;
     }
     throw Commands::executeException("Command not found", name, _errorList, line);
 }

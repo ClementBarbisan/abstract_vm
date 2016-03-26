@@ -80,7 +80,7 @@ class Operand : public IOperand
             T   rhsValue = stringToValue(rhs.toString());
             if (_value > std::numeric_limits<T>::max() - rhsValue)
                 throw std::runtime_error(_valueString + " + " + rhs.toString() + " : Overflow");
-            if (_value < std::numeric_limits<T>::min() - rhsValue)
+            if (_value < std::numeric_limits<T>::min() + rhsValue)
                 throw std::runtime_error(_valueString + " + " + rhs.toString() + " : Underflow");
             std::string string = valueToString(_value + rhsValue);
             if (rhs.getType() > getType())
@@ -95,7 +95,7 @@ class Operand : public IOperand
             T   rhsValue = stringToValue(rhs.toString());
             if (_value > std::numeric_limits<T>::max() + rhsValue)
                 throw std::runtime_error(_valueString + " - " + rhs.toString() + " : Overflow");
-            if (_value < std::numeric_limits<T>::min() + rhsValue)
+            if (_value < std::numeric_limits<T>::min() - rhsValue)
                 throw std::runtime_error(_valueString + " - " + rhs.toString() + " : Underflow");
             std::string string = valueToString(_value - rhsValue);
             if (rhs.getType() > getType())

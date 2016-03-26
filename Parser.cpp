@@ -90,11 +90,11 @@ std::list< std::list<std::string const> > & Parser::getList()
 
 IOperand const * Parser::_createOperand(std::list<std::string const> operand, int lineNb) const
 {
-    IOperand::eOperandType type = _factory.getEnumType(operand.front());
-    operand.pop_front();
     try
     {
-       return (_factory.createOperand(type, operand.front()));
+        IOperand::eOperandType type = _factory.getEnumType(operand.front());
+        operand.pop_front();
+        return (_factory.createOperand(type, operand.front()));
     }
     catch (std::runtime_error &e)
     {

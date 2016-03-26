@@ -27,7 +27,7 @@ class Commands
 		Stack &                                 _stack;
         OperandFactory &                        _factory;
 	public:
-        class executeException : public std::runtime_error
+        class executeException : public std::logic_error
         {
             public:
                 executeException(std::string msg, std::string line, std::list<std::string const> *errorList, int nbLine);

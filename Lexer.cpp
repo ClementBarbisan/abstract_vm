@@ -99,7 +99,7 @@ void    Lexer::lexicalException::searchError(std::string line, int nbLine) const
     if (std::regex_search(line, matches, std::regex("([a-z]{3,6}[ ]*( ?[a-z]{3,6}[0-9]{0,2}\\(?([-]?[0-9]+(\\.[0-9]+)?)?\\)?)?)?[ ]*(;.*)?")))
     {
         pos = line.find(*matches.begin());
-        line.erase(pos, matches.begin()->length());
+        line.erase(pos, matches.begin()->length() - 1);
         pos += matches.begin()->length() + 1;
     }
     error = "Line " + std::to_string(nbLine) + ":" + std::to_string(pos) + " : " + line + " : " + what();

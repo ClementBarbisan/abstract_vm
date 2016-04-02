@@ -111,7 +111,7 @@ void        parseFile(Lexer & lexer)
         std::cout << "Error : No exit command found." << std::endl;
         return;
     }
-	if (parser.getErrorList().empty())
+	if (parser.getErrorList().empty() && lexer.getErrorList().empty())
 		executeInstructions(queue, commands);
 }
 
@@ -125,8 +125,6 @@ int         main(int argc, char* argv[])
         readFile(lexer, argv[1]);
     else
         std::cout << "Too much arguments : Usage - ./avm [filename]" << std::endl;
-    if (lexer.getErrorList().size() > 0)
-        return (-1);
     parseFile(lexer);
     return (0);
 }

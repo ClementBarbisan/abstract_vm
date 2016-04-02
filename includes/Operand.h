@@ -58,7 +58,7 @@ class Operand : public IOperand
 			return (_type);
 		}
     
-        std::string const valueToString(T value) const
+        std::string const valueToString(double value) const
         {
             std::ostringstream os;
             
@@ -82,7 +82,7 @@ class Operand : public IOperand
             if (_value < std::numeric_limits<T>::min() + rhsValue)
                 throw std::runtime_error(_valueString + " + " + rhs.toString() + " : Underflow");
             std::string string = valueToString(static_cast<double>(_value) + rhsValue);
-            if (rhs.getType() > getType())
+            if (rhs.getPrecision() > getPrecision())
                 return (_factory->createOperand(rhs.getType(), string));
             else
                 return (_factory->createOperand(getType(), string));
@@ -97,7 +97,7 @@ class Operand : public IOperand
             if (_value < std::numeric_limits<T>::min() - rhsValue)
                 throw std::runtime_error(_valueString + " - " + rhs.toString() + " : Underflow");
             std::string string = valueToString(static_cast<double>(_value) - rhsValue);
-            if (rhs.getType() > getType())
+            if (rhs.getPrecision() > getPrecision())
                 return (_factory->createOperand(rhs.getType(), string));
             else
                 return (_factory->createOperand(getType(), string));
@@ -111,7 +111,7 @@ class Operand : public IOperand
             if (_value < std::numeric_limits<T>::min() / rhsValue)
                 throw std::runtime_error(_valueString + " * " + rhs.toString() + " : Underflow");
             std::string string = valueToString(static_cast<double>(_value) * rhsValue);
-            if (rhs.getType() > getType())
+			if (rhs.getPrecision() > getPrecision())
                 return (_factory->createOperand(rhs.getType(), string));
             else
                 return (_factory->createOperand(getType(), string));
@@ -127,7 +127,7 @@ class Operand : public IOperand
             if (_value < std::numeric_limits<T>::min() * rhsValue)
                 throw std::runtime_error(_valueString + " / " + rhs.toString() + " : Underflow");
             std::string string = valueToString(static_cast<double>(_value) / rhsValue);
-            if (rhs.getType() > getType())
+            if (rhs.getPrecision() > getPrecision())
                 return (_factory->createOperand(rhs.getType(), string));
             else
                 return (_factory->createOperand(getType(), string));
@@ -139,7 +139,7 @@ class Operand : public IOperand
 			if (rhsValue == 0)
 				throw std::runtime_error("can't divide by a value < 1");
             std::string string = valueToString(static_cast<int32_t>(_value) % rhsValue);
-            if (rhs.getType() > getType())
+            if (rhs.getPrecision() > getPrecision())
                 return (_factory->createOperand(rhs.getType(), string));
             else
                 return (_factory->createOperand(getType(), string));

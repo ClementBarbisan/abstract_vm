@@ -1,13 +1,12 @@
 #include <OperandFactory.h>
 #include <Operand.h>
 #include <limits>
+#include <float.h>
 #include <regex>
 #include <iostream>
 
 IOperand const *OperandFactory::createInt8(std::string const & value) const
 {
-    if (std::regex_search(value, std::regex("\\.+")))
-        throw std::runtime_error("is not a 8 bit integer.");
     if (stringToValue(value) >= std::numeric_limits<int8_t>::max())
         throw std::runtime_error("is too high for 8 bit integer.");
     if (stringToValue(value) <= std::numeric_limits<int8_t>::min())
@@ -17,8 +16,6 @@ IOperand const *OperandFactory::createInt8(std::string const & value) const
 
 IOperand const *OperandFactory::createInt16(std::string const & value) const
 {
-    if (std::regex_search(value, std::regex("\\.+")))
-        throw std::runtime_error("is not a 16 bit integer.");
     if (stringToValue(value) >= std::numeric_limits<int16_t>::max())
         throw std::runtime_error("is too high for 16 bit integer.");
     if (stringToValue(value) <= std::numeric_limits<int16_t>::min())
@@ -28,8 +25,6 @@ IOperand const *OperandFactory::createInt16(std::string const & value) const
 
 IOperand const *OperandFactory::createInt32(std::string const & value) const
 {
-    if (std::regex_search(value, std::regex("\\.+")))
-        throw std::runtime_error("is not a 32 bit integer.");
     if (stringToValue(value) >= std::numeric_limits<int32_t>::max())
         throw std::runtime_error("is too high for 32 bit integer.");
     if (stringToValue(value) <= std::numeric_limits<int32_t>::min())
@@ -39,18 +34,18 @@ IOperand const *OperandFactory::createInt32(std::string const & value) const
 
 IOperand const *OperandFactory::createFloat(std::string const & value) const
 {
-    if (stringToValue(value) >= std::numeric_limits<float>::max())
+    if (stringToValue(value) > 0 && stringToValue(value) >= std::numeric_limits<float>::max())
         throw std::runtime_error("is too high for float.");
-    if (stringToValue(value) <= std::numeric_limits<float>::min())
+    if (stringToValue(value) < 0 && stringToValue(value) >= std::numeric_limits<float>::min())
         throw std::runtime_error("is too low for float.");
     return (new Operand<float>(this, IOperand::FLOAT, value));
 }
 
 IOperand const *OperandFactory::createDouble(std::string const & value) const
 {
-    if (stringToValue(value) >= std::numeric_limits<double>::max())
+    if (stringToValue(value) > 0 && stringToValue(value) >= std::numeric_limits<double>::max())
         throw std::runtime_error("is too high for double.");
-    if (stringToValue(value) <= std::numeric_limits<double>::min())
+    if (stringToValue(value) < 0 && stringToValue(value) >= std::numeric_limits<double>::min())
         throw std::runtime_error("is too low for double.");
     return (new Operand<double>(this, IOperand::DOUBLE, value));
 }
@@ -99,6 +94,8 @@ IOperand const * OperandFactory::createOperand(IOperand::eOperandType type, std:
 {
     if ((*_mapOperand)[type])
     {
+        if ((type == IOperand::INT8 || type == IOperand::INT16 || type == IOperand::INT32) && std::regex_search(value, std::regex("\\.+")))
+            throw std::runtime_error ("Not an integer.");
         funcOperand func = (*_mapOperand)[type];
         return ((this->*func)(value));
     }

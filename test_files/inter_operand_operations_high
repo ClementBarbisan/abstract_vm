@@ -1,0 +1,22 @@
+push int8(-124)
+push int16(-31666)
+add
+push int32(-178669666)
+add
+push float(-67666666666.67)
+add
+push double(-67666600000000.67)
+add
+dump
+pop
+push int8(124)
+push int16(31666)
+add
+push int32(178669666)
+add
+push float(67666666666.67)
+add
+push double(67666600000000.67)
+add
+dump
+exit

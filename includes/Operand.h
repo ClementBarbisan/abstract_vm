@@ -77,10 +77,6 @@ class Operand : public IOperand
 		IOperand const * operator+(IOperand const & rhs) const
         {
             double   rhsValue = stringToValue(rhs.toString());
-            if (_value > std::numeric_limits<T>::max() - rhsValue)
-                throw std::runtime_error(_valueString + " + " + rhs.toString() + " : Overflow");
-            if (_value < std::numeric_limits<T>::min() + rhsValue)
-                throw std::runtime_error(_valueString + " + " + rhs.toString() + " : Underflow");
             std::string string = valueToString(static_cast<double>(_value) + rhsValue);
             if (rhs.getPrecision() > getPrecision())
                 return (_factory->createOperand(rhs.getType(), string));
@@ -92,10 +88,6 @@ class Operand : public IOperand
 		{
             
             double   rhsValue = stringToValue(rhs.toString());
-            if (_value > std::numeric_limits<T>::max() + rhsValue)
-                throw std::runtime_error(_valueString + " - " + rhs.toString() + " : Overflow");
-            if (_value < std::numeric_limits<T>::min() - rhsValue)
-                throw std::runtime_error(_valueString + " - " + rhs.toString() + " : Underflow");
             std::string string = valueToString(static_cast<double>(_value) - rhsValue);
             if (rhs.getPrecision() > getPrecision())
                 return (_factory->createOperand(rhs.getType(), string));
@@ -106,10 +98,6 @@ class Operand : public IOperand
 		IOperand const * operator*(IOperand const & rhs) const
 		{
             double   rhsValue = stringToValue(rhs.toString());
-            if (_value > std::numeric_limits<T>::max() / rhsValue)
-                throw std::runtime_error(_valueString + " * " + rhs.toString() + " : Overflow");
-            if (_value < std::numeric_limits<T>::min() / rhsValue)
-                throw std::runtime_error(_valueString + " * " + rhs.toString() + " : Underflow");
             std::string string = valueToString(static_cast<double>(_value) * rhsValue);
 			if (rhs.getPrecision() > getPrecision())
                 return (_factory->createOperand(rhs.getType(), string));
@@ -122,10 +110,6 @@ class Operand : public IOperand
             double   rhsValue = stringToValue(rhs.toString());
 			if (rhsValue == 0.0)
 				throw std::runtime_error("can't divide by 0");
-            if (_value > std::numeric_limits<T>::max() * rhsValue)
-                throw std::runtime_error(_valueString + " / " + rhs.toString() + " : Overflow");
-            if (_value < std::numeric_limits<T>::min() * rhsValue)
-                throw std::runtime_error(_valueString + " / " + rhs.toString() + " : Underflow");
             std::string string = valueToString(static_cast<double>(_value) / rhsValue);
             if (rhs.getPrecision() > getPrecision())
                 return (_factory->createOperand(rhs.getType(), string));

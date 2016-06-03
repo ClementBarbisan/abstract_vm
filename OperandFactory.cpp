@@ -94,8 +94,6 @@ IOperand const * OperandFactory::createOperand(IOperand::eOperandType type, std:
 {
     if ((*_mapOperand)[type])
     {
-        if ((type == IOperand::INT8 || type == IOperand::INT16 || type == IOperand::INT32) && std::regex_search(value, std::regex("\\.+")))
-            throw std::runtime_error ("Not an integer.");
         funcOperand func = (*_mapOperand)[type];
         return ((this->*func)(value));
     }
